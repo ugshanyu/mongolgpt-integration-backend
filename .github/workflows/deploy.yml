@@ -29,11 +29,8 @@ jobs:
         
     - name: Copy files to EC2
       run: |
-        scp -i ~/.ssh/deploy_key.pem -o StrictHostKeyChecking=no -r \
-          --exclude='node_modules' \
-          --exclude='.git' \
-          --exclude='.env*' \
-          ./* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USERNAME }}/app/
+        scp -i ~/.ssh/deploy_key.pem -o StrictHostKeyChecking=no \
+          -r ./* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USERNAME }}/app/
 
     - name: Deploy to EC2
       run: |
