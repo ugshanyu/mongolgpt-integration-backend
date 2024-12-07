@@ -1,4 +1,3 @@
-# .github/workflows/deploy.yml
 name: Manual Deploy to EC2
 
 on:
@@ -22,14 +21,28 @@ jobs:
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key.pem
         chmod 600 ~/.ssh/deploy_key.pem
         
+    - name: Create .dockerignore
+      run: |
+        echo "node_modules" > .dockerignore
+        echo ".git" >> .dockerignore
+        echo ".env*" >> .dockerignore
+        
     - name: Copy files to EC2
       run: |
-        scp -i ~/.ssh/deploy_key.pem -o StrictHostKeyChecking=no -r ./* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USERNAME }}/app/
+        scp -i ~/.ssh/deploy_key.pem -o StrictHostKeyChecking=no -r \
+          --exclude='node_modules' \
+          --exclude='.git' \
+          --exclude='.env*' \
+          ./* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USERNAME }}/app/
 
     - name: Deploy to EC2
       run: |
         ssh -i ~/.ssh/deploy_key.pem -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} '
           cd /home/${{ secrets.SSH_USERNAME }}/app
+          if [ ! -f .env_backend ]; then
+            echo "Error: .env_backend file not found!"
+            exit 1
+          fi
           docker compose down
           docker compose up --build -d
         '

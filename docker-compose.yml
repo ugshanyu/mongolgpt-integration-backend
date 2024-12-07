@@ -6,6 +6,8 @@ services:
     container_name: mongolgpt-backend
     ports:
       - "5000:5000"
+    env_file:
+      - .env_backend
     environment:
       - MONGODB_URI=mongodb://mongodb:27017/gpt-data-collector
     depends_on:
