@@ -33,8 +33,8 @@ const locationEmailMap = {
     // Central districts group 2
     central2: {
         locations: ['bayangol', 'khan-uul', 'bayanzurkh'],
-        // recipients: ['zorigtbaatar.ts@ontime.mn', 'tuguldur.m@ontime.mn']
-        recipients: ['soninangilug@gmail.com']
+        recipients: ['zorigtbaatar.ts@ontime.mn', 'tuguldur.m@ontime.mn']
+        // recipients: ['soninangilug@gmail.com']
     }
 };
 
@@ -73,8 +73,8 @@ async function sendLocationNotification(location, phone) {
     }
 }
 
-// const TRAINING_RECIPIENTS = ['munkhgerel.ts@ontime.mn', 'delgerekh.g@ontime.mn'];
-const TRAINING_RECIPIENTS = ['ugshanyu@gmail.com'];
+const TRAINING_RECIPIENTS = ['munkhgerel.ts@ontime.mn', 'delgerekh.g@ontime.mn'];
+// const TRAINING_RECIPIENTS = ['ugshanyu@gmail.com'];
 
 // Function to send training notification email
 async function sendTrainingNotification(date, time, phone) {
